@@ -7,6 +7,7 @@ is setup to be the "default" character type created by the default
 creation commands.
 
 """
+import random
 from evennia import DefaultCharacter
 
 
@@ -30,4 +31,36 @@ class Character(DefaultCharacter):
     at_post_puppet - Echoes "AccountName has entered the game" to the room.
 
     """
-    pass
+    def at_object_creation(self):
+        """
+        Called only at initial creation. Give the user color and cname
+        attributes. Color will set the line color in chat, and cname will set
+        the color pattern of the name in chat. Eventually this will be extended
+        to all of Evennia.
+        """
+        # TODO: Acquire colors the way @color does
+        # (see evennia/commands/account.py CmdColorTest)
+        colors = ['r', 'g', 'y', 'b', 'm', 'c', 'w']
+        self.db.color = random.choice(colors)
+        if random.choice([True, False]):
+            self.db.color = self.db.color.upper()
+        self.db.cname = None
+
+    def get_color(self):
+        """
+        Simple access method to return color as a str
+        """
+        if self.db.color == None:
+            return ""
+        else:
+            return str(self.db.color)
+
+    def get_cname(self):
+        """
+        Simple access method to return cname as str
+        Defaults to color if no cname is set
+        """
+        if self.db.cname == None or self.db.cname == "":
+            return self.get_color()
+        else:
+            return str(self.db.cname)
