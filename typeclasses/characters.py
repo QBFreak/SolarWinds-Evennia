@@ -50,7 +50,7 @@ class Character(DefaultCharacter):
         """
         Simple access method to return color as a str
         """
-        if self.db.color == None:
+        if self.db.color is None:
             return ""
         else:
             return str(self.db.color)
@@ -60,7 +60,7 @@ class Character(DefaultCharacter):
         Simple access method to return cname as str
         Defaults to color if no cname is set
         """
-        if self.db.cname == None or self.db.cname == "":
+        if self.db.cname is None or self.db.cname == "":
             return self.get_color()
         else:
             return str(self.db.cname)

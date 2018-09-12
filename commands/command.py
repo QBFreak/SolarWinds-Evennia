@@ -185,6 +185,7 @@ class Command(BaseCommand):
 #             else:
 #                 self.character = None
 
+
 class CmdTestCmd(Command):
     key = "test"
     aliases = ["t"]

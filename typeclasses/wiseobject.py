@@ -1,6 +1,7 @@
 from random import choice
 from typeclasses.objects import Object
 
+
 class WiseObject(Object):
     """
     An object speaking when someone looks at it. We
