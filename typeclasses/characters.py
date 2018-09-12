@@ -39,7 +39,7 @@ class Character(DefaultCharacter):
         to all of Evennia.
         """
         # TODO: Acquire colors the way @color does
-        # (see evennia/commands/account.py CmdColorTest)
+        # (see evennia/commands/default/account.py CmdColorTest)
         colors = ['r', 'g', 'y', 'b', 'm', 'c', 'w']
         self.db.color = random.choice(colors)
         if random.choice([True, False]):
