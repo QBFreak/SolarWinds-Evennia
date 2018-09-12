@@ -17,6 +17,7 @@ import random
 from evennia import DefaultChannel
 from evennia.utils import logger
 
+
 class Channel(DefaultChannel):
     """
     Working methods:
@@ -66,9 +67,11 @@ class Channel(DefaultChannel):
             sender_color = msg.senders[0].get_color()
         if sender_color != "":
             sender_color = "|" + sender_color
-        display_channel = "{0}[{1}] ".format(sender_color, " ".join(c.name for c in msg.channels))
+        display_channel = "{0}[{1}] ".format(
+            sender_color,
+            " ".join(c.name for c in msg.channels)
+        )
         return display_channel
-
 
     def format_message(self, msg, emit=False):
         """
@@ -144,7 +147,6 @@ class Channel(DefaultChannel):
                 )
         return formatted_message
 
-
     def format_ctext(self, text, cformat):
         """
         Format a string of text with colors based on `ctext` style formatting
@@ -181,7 +183,10 @@ class Channel(DefaultChannel):
                 text_ptr += 1
             else:
                 formatted_text = formatted_text + "|{0}".format(color)
-                for i in range(text_ptr, numpy.clip(text_ptr + skip,text_ptr,len(text))):
+                for i in range(
+                            text_ptr,
+                            numpy.clip(text_ptr + skip, text_ptr, len(text))
+                        ):
                     formatted_text = formatted_text + text[i]
                 text_ptr += skip
             color_ptr += 1
