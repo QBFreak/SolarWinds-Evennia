@@ -12,8 +12,10 @@ to be modified.
 
 """
 
+import numpy
+import random
 from evennia import DefaultChannel
-# from evennia.utils import logger
+from evennia.utils import logger
 
 class Channel(DefaultChannel):
     """
@@ -58,6 +60,16 @@ class Channel(DefaultChannel):
         post_send_message(msg) - called just after message was sent to channel
 
     """
+    def channel_prefix(self, msg, emit=False):
+        sender_color = ""
+        if len(msg.senders) > 0:
+            sender_color = msg.senders[0].get_color()
+        if sender_color != "":
+            sender_color = "|" + sender_color
+        display_channel = "{0}[{1}] ".format(sender_color, " ".join(c.name for c in msg.channels))
+        return display_channel
+
+
     def format_message(self, msg, emit=False):
         """
         Format a message body before display it to the user
@@ -78,15 +90,101 @@ class Channel(DefaultChannel):
         """
         formatted_message = ""
         if len(msg.senders) == 1:
-            # TODO: When we color the whole channel text, reset to THAT, not |W
-            formatted_message = "|r{0}|W".format(msg.senders[0])
+            sender_color = msg.senders[0].get_color()
+            sender_cname = msg.senders[0].get_cname()
+            if sender_color == "":
+                sender_color = "W"
+            if sender_cname == "":
+                sender_cname = "W"
+            formatted_message = "{0}|{1}".format(
+                self.format_ctext(msg.senders[0].name, sender_cname),
+                sender_color
+            )
         elif len(msg.senders) > 1:
             for sender in msg.senders:
-                formatted_message = "{0}, |r{1}|W".format(formatted_message, sender)
+                formatted_message = "{0}, {1}|{2}".format(
+                    formatted_message,
+                    self.format_ctext(sender.name, sender.get_cname()),
+                    msg.senders[0].get_color()
+                )
         if emit:
             formatted_message = "{1}".format(formatted_message, msg.message)
         else:
-            # TODO: Emote, Possessive Emote, To:, Thought bubbles
-            formatted_message = "{0}: {1}".format(formatted_message, msg.message)
-
+            if msg.message[0] == ":":
+                formatted_message = "{0} {1}".format(
+                    formatted_message,
+                    msg.message[1:]
+                )
+            elif msg.message[0] == ";":
+                formatted_message = "{0}'s {1}".format(
+                    formatted_message,
+                    msg.message[1:]
+                )
+            elif msg.message[0] == "'" and len(msg.message.split(' ')) > 1:
+                words = msg.message.split(' ')
+                user = words[0]
+                del words[0]
+                message_text = " ".join(words)
+                formatted_message = "{0} [to: {2}]: {1}".format(
+                    formatted_message,
+                    message_text,
+                    user[1:]
+                )
+            elif msg.message[0] == ".":
+                bubble_color = random.choice(['w', 'c', 'y'])
+                formatted_message = "{0} |x. |Co |cO |w( |{2}{1} |w)".format(
+                    formatted_message,
+                    msg.message[1:],
+                    bubble_color
+                )
+            else:
+                formatted_message = "{0}: {1}".format(
+                    formatted_message,
+                    msg.message
+                )
         return formatted_message
+
+
+    def format_ctext(self, text, cformat):
+        """
+        Format a string of text with colors based on `ctext` style formatting
+
+        Args:
+            text (str): The text to format
+            cformat (str): The ctext formatting
+
+        Returns:
+            formatted_text (str): A string of text formatted with Evennia style
+                color formatting
+
+        Example:
+            format_ctext("Hello!", "r,g")
+        """
+        if len(cformat) < 1:
+            return text
+        if len(cformat.split(',')) == 1:
+            return "|{0}{1}".format(cformat, text)
+        colors = cformat.split(',')
+        color_ptr = 0
+        formatted_text = ""
+        text_ptr = 0
+        skip = 1
+        while text_ptr < len(text):
+            if len(colors[color_ptr].split(':')) == 2:
+                color = colors[color_ptr].split(':')[0]
+                skip = int(colors[color_ptr].split(':')[1])
+            else:
+                color = colors[color_ptr]
+                skip = 1
+            if skip == 1:
+                formatted_text = formatted_text + "|{0}{1}".format(color, text[text_ptr])
+                text_ptr += 1
+            else:
+                formatted_text = formatted_text + "|{0}".format(color)
+                for i in range(text_ptr, numpy.clip(text_ptr + skip,text_ptr,len(text))):
+                    formatted_text = formatted_text + text[i]
+                text_ptr += skip
+            color_ptr += 1
+            if color_ptr >= len(colors):
+                color_ptr = 0
+        return formatted_text
