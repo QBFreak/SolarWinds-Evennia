@@ -22,13 +22,13 @@ user's `@color` and `@ctext` attributes. Ripped off straight from TinyMARE :)
 
 [characters.py](characters.py)
  * The `@color` attribute defaults to a random color on character creation
- * player objects inherit from [objects.py](objects).Object to provide colored
+ * player objects inherit from [objects.py](objects.py).Object to provide colored
    object names when using `look` command (`return_appearance()`)
 
-[exits.py](exits.py) - exit objects inherit from [objects.py](objects).Object
+[exits.py](exits.py) - exit objects inherit from [objects.py](objects.py).Object
 to provide colored object names when using `look` command (`return_appearance()`)
 
-[rooms.py](rooms.py) - room objects inherit from [objects.py](objects).Object
+[rooms.py](rooms.py) - room objects inherit from [objects.py](objects.py).Object
 to provide colored object names when using `look` command (`return_appearance()`)
 
 [objects.py](objects.py) - default object provides `return_appearance()` hook

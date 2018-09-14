@@ -14,11 +14,11 @@ them for Python to be able to find the modules within.
 [space.py](space.py) - Expansion of wilderness contrib
  * Handles 3 dimensions
  * Removed the limitation of coordinates to positive numbers
- * Rooms now inherit from [typeclasses.object.Object](/typeclasses/object.py)
+ * Rooms now inherit from [typeclasses.object.Object](/typeclasses/objects.py)
    to provide exit sorting
 
 [wilderness.py](wilderness.py) - Minor modification to the stock wilderness
 contrib
  * Removed the limitation of coordinates to positive numbers
- * Rooms now inherit from [typeclasses.object.Object](/typeclasses/object.py)
+ * Rooms now inherit from [typeclasses.object.Object](/typeclasses/objects.py)
    to provide exit sorting
