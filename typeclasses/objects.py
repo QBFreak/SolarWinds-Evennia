@@ -11,7 +11,6 @@ inheritance.
 
 """
 from evennia import DefaultObject
-from evennia.utils import logger
 
 
 class Object(DefaultObject):
@@ -194,7 +193,6 @@ class Object(DefaultObject):
         if desc:
             string += "%s" % desc
         if exits:
-            sortedexits = []
             exitorder = [
                 'west',
                 'northwest',
@@ -207,14 +205,13 @@ class Object(DefaultObject):
                 'southeast',
                 'east'
             ]
-            logger.log_msg("MARKER")
-            for eo in exitorder:
-                while eo in exits:
-                    sortedexits.append(eo)
-                    exits.remove(eo)
-            for exit in exits:
-                sortedexits.append(exit)
-            string += "\n|wExits:|n " + ", ".join(sortedexits)
+            for oe in reversed(exitorder):
+                for i in range(len(exits)):
+                    if exits[i].split('(#')[0].lower() == oe:
+                        exit = exits[i]
+                        del exits[i]
+                        exits.insert(0, exit)
+            string += "\n|wExits:|n " + ", ".join(exits)
         if users or things:
             string += "\n|wYou see:|n " + ", ".join(users + things)
         return string
