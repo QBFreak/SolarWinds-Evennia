@@ -178,17 +178,33 @@ class Object(DefaultObject):
         # get and identify all objects
         visible = (con for con in self.contents if con != looker and
                    con.access(looker, "view"))
-        exits, users, things = [], [], []
+        exits, exit_colors, users, things = [], [], [], []
         for con in visible:
             key = con.get_display_name(looker)
             if con.destination:
+                exit_color = 'n'
+                if con.destination.db.color is not None and con.destination.db.color != "":
+                    exit_color = con.destination.db.color
+                if con.db.color is not None and con.db.color != "":
+                    # Exit colors override destination room colors
+                    exit_color = con.db.color
                 exits.append(key)
+                exit_colors.append(exit_color)
             elif con.has_account:
-                users.append("|c%s|n" % key)
+                user_color = 'n'
+                if con.db.color is not None and con.db.color != "":
+                    user_color = con.db.color
+                users.append("|{1}{0}|n".format(key, user_color))
             else:
-                things.append(key)
+                thing_color = 'n'
+                if con.db.color is not None and con.db.color != "":
+                    thing_color = con.db.color
+                things.append("|{1}{0}".format(key, thing_color))
         # get description, build string
-        string = "|c%s|n\n" % self.get_display_name(looker)
+        room_color = 'n'
+        if self.db.color is not None and self.db.color != "":
+            room_color = self.db.color
+        string = "|{1}{0}|n\n".format(self.get_display_name(looker), room_color)
         desc = self.db.desc
         if desc:
             string += "%s" % desc
@@ -209,9 +225,16 @@ class Object(DefaultObject):
                 for i in range(len(exits)):
                     if exits[i].split('(#')[0].lower() == ordered_exit:
                         exit = exits[i]
+                        exit_color = exit_colors[i]
                         del exits[i]
+                        del exit_colors[i]
                         exits.insert(0, exit)
-            string += "\n|wExits:|n " + ", ".join(exits)
+                        exit_colors.insert(0, exit_color)
+            # string += "\n|wExits:|n " + ", ".join(exits)
+            string += "\n|wExits:|n"
+            for i in range(len(exits)):
+                string += " |{1}{0},".format(exits[i], exit_colors[i])
+            string = string.rstrip(",")
         if users or things:
             string += "\n|wYou see:|n " + ", ".join(users + things)
         return string
