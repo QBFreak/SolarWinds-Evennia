@@ -21,11 +21,11 @@ Usage:
     space is stored as a Script with the name you specify. If you don't
     specify the name, a script named "default" will be created and used.
 
-    @py from evennia.contrib import space; space.create_space()
+    @py from world import space; space.create_space()
 
     Once created, it is possible to move into that space map:
 
-    @py from evennia.contrib import space; space.enter_space(me)
+    @py from world import space; space.enter_space(me)
 
     All coordinates used by the space map are in the format of `(x, y, z)`
     tuples. x goes from left to right and y goes from bottom to top. z goes up
@@ -63,7 +63,7 @@ Customisation example:
       .......
     \"\"\"
 
-    from evennia.contrib import space
+    from world import space
 
     class PyramidMapProvider(space.SpaceMapProvider):
 
@@ -106,7 +106,7 @@ Customisation example:
     ```
     @py from world import pyramid as p; p.space.create_space(mapprovider=p.PyramidMapProvider())
 
-    @py from evennia.contrib import space; space.enter_space(me, coordinates=(4, 1, 0))
+    @py from world import space; space.enter_space(me, coordinates=(4, 1, 0))
 
     ```
 Implementation details:
@@ -127,7 +127,7 @@ from evennia import create_object, create_script
 from evennia.utils import inherits_from
 
 
-def create_space(name="default", mapprovider=None):
+def create_space(name="space", mapprovider=None):
     """
     Creates a new space map. Does nothing if a space map already exists with
     the same name.
@@ -150,7 +150,7 @@ def create_space(name="default", mapprovider=None):
     script.db.mapprovider = mapprovider
 
 
-def enter_space(obj, coordinates=(0, 0), name="default"):
+def enter_space(obj, coordinates=(0, 0, 0), name="space"):
     """
     Moves obj into space. The space needs to exist first and the
     provided coordinates needs to be valid inside that space.
