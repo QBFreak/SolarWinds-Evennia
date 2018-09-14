@@ -178,7 +178,7 @@ class Object(DefaultObject):
         # get and identify all objects
         visible = (con for con in self.contents if con != looker and
                    con.access(looker, "view"))
-        exits, exit_colors, users, things = [], [], [], []
+        exits, users, things = [], [], []
         for con in visible:
             key = con.get_display_name(looker)
             if con.destination:
@@ -188,8 +188,7 @@ class Object(DefaultObject):
                 if con.db.color is not None and con.db.color != "":
                     # Exit colors override destination room colors
                     exit_color = con.db.color
-                exits.append(key)
-                exit_colors.append(exit_color)
+                exits.append((key, exit_color))
             elif con.has_account:
                 user_color = 'n'
                 if con.db.color is not None and con.db.color != "":
@@ -223,17 +222,13 @@ class Object(DefaultObject):
             ]
             for ordered_exit in reversed(exit_order):
                 for i in range(len(exits)):
-                    if exits[i].split('(#')[0].lower() == ordered_exit:
+                    if exits[i][0].split('(#')[0].lower() == ordered_exit:
                         exit = exits[i]
-                        exit_color = exit_colors[i]
                         del exits[i]
-                        del exit_colors[i]
                         exits.insert(0, exit)
-                        exit_colors.insert(0, exit_color)
-            # string += "\n|wExits:|n " + ", ".join(exits)
             string += "\n|wExits:|n"
             for i in range(len(exits)):
-                string += " |{1}{0},".format(exits[i], exit_colors[i])
+                string += " |{1}{0},".format(exits[i][0], exits[i][1])
             string = string.rstrip(",")
         if users or things:
             string += "\n|wYou see:|n " + ", ".join(users + things)
