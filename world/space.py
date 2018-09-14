@@ -125,6 +125,7 @@ Implementation details:
 from evennia import DefaultRoom, DefaultExit, DefaultScript
 from evennia import create_object, create_script
 from evennia.utils import inherits_from
+from typeclasses.objects import Object
 
 
 def create_space(name="space", mapprovider=None):
@@ -477,12 +478,14 @@ class SpaceScript(DefaultScript):
         self._destroy_room(room)
 
 
-class SpaceRoom(DefaultRoom):
+class SpaceRoom(DefaultRoom, Object):
     """
     This is a single room inside space. This room provides a "view"
     into the space map. When an account moves around, instead of going to
     another room as with traditional rooms, they stay in the same room but the
     room itself changes to display another area of space.
+
+    The room inherits from typeclasses.object.Object to provide exit sorting
     """
 
     @property
