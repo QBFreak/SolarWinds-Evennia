@@ -119,6 +119,7 @@ Implementation details:
 from evennia import DefaultRoom, DefaultExit, DefaultScript
 from evennia import create_object, create_script
 from evennia.utils import inherits_from
+from typeclasses.objects import Object
 
 
 def create_wilderness(name="default", mapprovider=None):
@@ -464,12 +465,14 @@ class WildernessScript(DefaultScript):
         self._destroy_room(room)
 
 
-class WildernessRoom(DefaultRoom):
+class WildernessRoom(DefaultRoom, Object):
     """
     This is a single room inside the wilderness. This room provides a "view"
     into the wilderness map. When an account moves around, instead of going to
     another room as with traditional rooms, they stay in the same room but the
     room itself changes to display another area of the wilderness.
+
+    The room inherits from typeclasses.object.Object to provide exit sorting
     """
 
     @property

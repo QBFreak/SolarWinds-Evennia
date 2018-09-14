@@ -5,8 +5,6 @@ Evennia contrib - QBFreak 2018
 
 A modified version of Wilderness - titeuf87 2017
 
-# TODO: Update comment
-
 This contrib provides a space map. This is an area that can be huge where
 the rooms are mostly similar, except for some small cosmetic changes like the
 room name.

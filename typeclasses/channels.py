@@ -61,6 +61,19 @@ class Channel(DefaultChannel):
 
     """
     def channel_prefix(self, msg, emit=False):
+        """
+        Controls how the channel should be prefixed when returning to user.
+
+        Args:
+            msg (evennia.comms.models.TempMsg): Message object
+            emit (bool, optional): Indicates the message is an emit
+
+        Returns:
+            display_channel (str): The formatted channel display name
+
+        Notes:
+            Colors the channel prefix based on the sender's `color` attribute
+        """
         sender_color = ""
         if len(msg.senders) > 0:
             sender_color = msg.senders[0].get_color()
@@ -85,10 +98,12 @@ class Channel(DefaultChannel):
             formatted_message (str): The formatted message text
 
         Notes:
-            (Unimplemented)
-            * Color the user name with the user's @cname
-            * Color the text with the user's @color
+            * Format the user name with color, per the user's `cname` attribute
+            * Color the text with the user's `color` attribute
             * Handle pose, possessive pose, to, and thought bubbles
+
+        Unimplemented:
+            * Format the 'to' player's name with their `ctext`
         """
         formatted_message = ""
         if len(msg.senders) == 1:

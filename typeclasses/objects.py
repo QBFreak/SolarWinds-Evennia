@@ -165,8 +165,16 @@ class Object(DefaultObject):
         This formats a description. It is the hook a 'look' command
         should call.
 
-        This is overridden so that we can sort the exits properly. The majority
-        of the code is copy and paste from evennia.objects.
+        This is overridden for a couple of reasons:
+         * To properly sort exits based on cardinal directions.
+         * To display object names with colors based on the contents of the
+           `color` attribute.
+         * To display exit names with colors based on the contents of the
+           destination's `color` attribute, unless the exit has a valid
+           `color`, in which case it takes precedence.
+
+        It is left as an exercise to the reader to determine if the exits are
+        "properly" sorted or not. :)
 
         Args:
             looker (Object): Object doing the looking.

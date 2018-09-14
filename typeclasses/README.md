@@ -14,3 +14,23 @@ appropriate new paths to your settings.py file so Evennia knows where
 to look. Also remember that for Python to find your modules, it
 requires you to add an empty `__init__.py` file in any new sub
 directories you create.
+
+## Customizations
+
+[channels.py](channels.py) - Color formatting for channel text based on a
+user's `@color` and `@ctext` attributes. Ripped off straight from TinyMARE :)
+
+[characters.py](characters.py)
+ * The `@color` attribute defaults to a random color on character creation
+ * player objects inherit from [objects.py](objects).Object to provide colored
+   object names when using `look` command (`return_appearance()`)
+
+[exits.py](exits.py) - exit objects inherit from [objects.py](objects).Object
+to provide colored object names when using `look` command (`return_appearance()`)
+
+[rooms.py](rooms.py) - room objects inherit from [objects.py](objects).Object
+to provide colored object names when using `look` command (`return_appearance()`)
+
+[objects.py](objects.py) - default object provides `return_appearance()` hook
+to format object names with colors based on `@color` attribute when a player
+`look`s
