@@ -193,7 +193,7 @@ class Object(DefaultObject):
         if desc:
             string += "%s" % desc
         if exits:
-            exitorder = [
+            exit_order = [
                 'west',
                 'northwest',
                 'southwest',
@@ -205,9 +205,9 @@ class Object(DefaultObject):
                 'southeast',
                 'east'
             ]
-            for oe in reversed(exitorder):
+            for ordered_exit in reversed(exit_order):
                 for i in range(len(exits)):
-                    if exits[i].split('(#')[0].lower() == oe:
+                    if exits[i].split('(#')[0].lower() == ordered_exit:
                         exit = exits[i]
                         del exits[i]
                         exits.insert(0, exit)
