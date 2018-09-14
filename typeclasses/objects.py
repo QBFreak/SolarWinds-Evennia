@@ -11,6 +11,7 @@ inheritance.
 
 """
 from evennia import DefaultObject
+from evennia.utils import logger
 
 
 class Object(DefaultObject):
@@ -160,4 +161,60 @@ class Object(DefaultObject):
                                  object speaks
 
      """
-    pass
+    def return_appearance(self, looker, **kwargs):
+        """
+        This formats a description. It is the hook a 'look' command
+        should call.
+
+        This is overridden so that we can sort the exits properly. The majority
+        of the code is copy and paste from evennia.objects.
+
+        Args:
+            looker (Object): Object doing the looking.
+            **kwargs (dict): Arbitrary, optional arguments for users
+                overriding the call (unused by default).
+        """
+        if not looker:
+            return ""
+        # get and identify all objects
+        visible = (con for con in self.contents if con != looker and
+                   con.access(looker, "view"))
+        exits, users, things = [], [], []
+        for con in visible:
+            key = con.get_display_name(looker)
+            if con.destination:
+                exits.append(key)
+            elif con.has_account:
+                users.append("|c%s|n" % key)
+            else:
+                things.append(key)
+        # get description, build string
+        string = "|c%s|n\n" % self.get_display_name(looker)
+        desc = self.db.desc
+        if desc:
+            string += "%s" % desc
+        if exits:
+            sortedexits = []
+            exitorder = [
+                'west',
+                'northwest',
+                'southwest',
+                'north',
+                'up',
+                'down',
+                'south',
+                'northeast',
+                'southeast',
+                'east'
+            ]
+            logger.log_msg("MARKER")
+            for eo in exitorder:
+                while eo in exits:
+                    sortedexits.append(eo)
+                    exits.remove(eo)
+            for exit in exits:
+                sortedexits.append(exit)
+            string += "\n|wExits:|n " + ", ".join(sortedexits)
+        if users or things:
+            string += "\n|wYou see:|n " + ", ".join(users + things)
+        return string

@@ -9,9 +9,10 @@ creation commands.
 """
 import random
 from evennia import DefaultCharacter
+from typeclasses.objects import Object
 
 
-class Character(DefaultCharacter):
+class Character(DefaultCharacter, Object):
     """
     The Character defaults to reimplementing some of base Object's hook methods with the
     following functionality:
