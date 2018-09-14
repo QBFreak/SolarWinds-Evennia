@@ -15,7 +15,6 @@ to be modified.
 import numpy
 import random
 from evennia import DefaultChannel
-from evennia.utils import logger
 
 
 class Channel(DefaultChannel):
