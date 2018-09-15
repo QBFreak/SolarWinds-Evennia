@@ -1,5 +1,4 @@
 from evennia import create_object
-from evennia.commands.default.tests import CommandTest
 from evennia.utils.test_resources import EvenniaTest
 from typeclasses.characters import Character
 from typeclasses.exits import Exit
