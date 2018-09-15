@@ -6,7 +6,6 @@ Commands describe the input the account can do to the game.
 """
 
 from evennia import Command as BaseCommand
-from evennia.utils import logger
 # from evennia import default_cmds
 
 
@@ -184,14 +183,3 @@ class Command(BaseCommand):
 #                 self.character = self.caller.get_puppet(self.session)
 #             else:
 #                 self.character = None
-
-
-class CmdTestCmd(Command):
-    key = "test"
-    aliases = ["t"]
-    lock = "cmd:all()"
-    help_category = "General"
-
-    def func(self):
-        logger.log_info("TEST LOG MESSAGE")
-        self.caller.msg("Successful test!")
