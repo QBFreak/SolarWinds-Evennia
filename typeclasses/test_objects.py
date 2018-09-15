@@ -116,3 +116,129 @@ class TestObjectAppearance(EvenniaTest):
             "|wExits:|n |rExit1|n, |gExit2|n\n"
             "|wYou see:|n |cObject1|n, |yObject2|n"
         )
+
+
+class TestObjectExitOrder(EvenniaTest):
+    """
+    Unittest for default object exit ordering
+
+    Tests the exit ordering returned by Object.return_appearance()
+
+     * Exits should be arranged according to the following list
+     * Exits not on the list should be left unordered at the end of the list
+     * Case should be irrelevant
+
+    *  west
+    *  northwest
+    *  southwest
+    *  north
+    *  up
+    *  down
+    *  south
+    *  northeast
+    *  southeast
+    *  east
+    """
+
+    character_typeclass = Character
+    exit_typeclass = Exit
+    room_typeclass = Room
+
+    def setUp(self):
+        super(TestObjectExitOrder, self).setUp()
+        self.room = create_object(Room, key="Location")
+
+        # We should probably automate and randomize this...
+        self.southeast = create_object(
+            Exit,
+            key="Southeast",
+            location=self.room,
+            destination=self.room
+        )
+
+        self.northwest = create_object(
+            Exit,
+            key="Northwest",
+            location=self.room,
+            destination=self.room
+        )
+
+        self.west = create_object(
+            Exit,
+            key="west",
+            location=self.room,
+            destination=self.room
+        )
+
+        self.south = create_object(
+            Exit,
+            key="south",
+            location=self.room,
+            destination=self.room
+        )
+
+        self.down = create_object(
+            Exit,
+            key="down",
+            location=self.room,
+            destination=self.room
+        )
+
+        self.northeast = create_object(
+            Exit,
+            key="northeast",
+            location=self.room,
+            destination=self.room
+        )
+
+        self.north = create_object(
+            Exit,
+            key="north",
+            location=self.room,
+            destination=self.room
+        )
+
+        self.somewhere = create_object(
+            Exit,
+            key="Somewhere",
+            location=self.room,
+            destination=self.room
+        )
+
+        self.southwest = create_object(
+            Exit,
+            key="southwest",
+            location=self.room,
+            destination=self.room
+        )
+
+        self.east = create_object(
+            Exit,
+            key="EAST",
+            location=self.room,
+            destination=self.room
+        )
+
+        self.up = create_object(
+            Exit,
+            key="uP",
+            location=self.room,
+            destination=self.room
+        )
+
+        self.character = create_object(
+            Character,
+            key="Character",
+            location=self.room
+        )
+
+    def test_exit_order(self):
+        """Test the ordering of exits"""
+        # print(self.room.return_appearance(self.character))
+        assert self.room.return_appearance(self.character) == (
+            "|nLocation|n\n"
+            "\n"
+            "|wExits:|n |nwest|n, |nNorthwest|n, |nsouthwest|n, |nnorth|n, "
+            "|nuP|n, |ndown|n, |nsouth|n, |nnortheast|n, |nSoutheast|n, "
+            "|nEAST|n, |nSomewhere|n"
+        )
