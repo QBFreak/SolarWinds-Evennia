@@ -52,7 +52,7 @@ class TestChannel(EvenniaTest):
             "|{1}[{0}] ".format(self.tempmsg.channels[0].name, self.character.db.color)
 
     def test_format_message(self):
-        """Test the channel message formatting"""
+        """Test the channel message formatting for NON EMOTE"""
         assert self.channel.format_message(self.tempmsg) == \
             "|rT|gE|rS|gT|{1}: {0}".format(
                 self.tempmsg.message,
