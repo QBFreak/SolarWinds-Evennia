@@ -34,3 +34,14 @@ to provide colored object names when using `look` command (`return_appearance()`
 [objects.py](objects.py) - default object provides `return_appearance()` hook
 to format object names with colors based on `@color` attribute when a player
 `look`s
+
+[test_characters.py](test_characters.py) - Unittests for
+[characters.py](characters.py). Ensures default values for new characters are
+set properly.
+
+[test_objects.py](test_objects.py) - Unittests for [objects.py](objects.py).
+ * Ensures that `Characters`, `Exits` and `Rooms` all inherit from
+`typeclasses.objects.Object`
+ * Ensures proper handling of color formatting of objects when
+ `Object.return_appearance()` is called.
+ 

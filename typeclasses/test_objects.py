@@ -14,7 +14,8 @@ class TestObject(EvenniaTest):
     Characters, Exits and Rooms should all inherit from
     typeclasses.objects.Object
 
-    # TODO: We need to test Object.return_appearance()
+    Tests the color formatting returned by Object.return_appearance() as
+    specified in detail in test_room_appearance() below
     """
 
     object_typeclass = Object
@@ -73,7 +74,7 @@ class TestObject(EvenniaTest):
         """
         Test the appearance of a room
 
-        As set above:
+        As set above in setUp:
          * The room name is `r`
          * Exit 1 is the same color as the room
          * Exit 2 is `g`
