@@ -22,14 +22,16 @@ user's `@color` and `@ctext` attributes. Ripped off straight from TinyMARE :)
 
 [characters.py](characters.py)
  * The `@color` attribute defaults to a random color on character creation
- * player objects inherit from [objects.py](objects.py).Object to provide colored
-   object names when using `look` command (`return_appearance()`)
+ * player objects inherit from [objects.py](objects.py).Object to provide
+   colored object names when using `look` command (`return_appearance()`)
 
-[exits.py](exits.py) - exit objects inherit from [objects.py](objects.py).Object
-to provide colored object names when using `look` command (`return_appearance()`)
+[exits.py](exits.py) - exit objects inherit from
+[objects.py](objects.py).Object to provide colored object names when using
+`look` command (`return_appearance()`)
 
-[rooms.py](rooms.py) - room objects inherit from [objects.py](objects.py).Object
-to provide colored object names when using `look` command (`return_appearance()`)
+[rooms.py](rooms.py) - room objects inherit from
+[objects.py](objects.py).Object to provide colored object names when using
+`look` command (`return_appearance()`)
 
 [objects.py](objects.py) - default object provides `return_appearance()` hook
 to format object names with colors based on `@color` attribute when a player
@@ -41,7 +43,8 @@ set properly.
 
 [test_objects.py](test_objects.py) - Unittests for [objects.py](objects.py).
  * Ensures that `Characters`, `Exits` and `Rooms` all inherit from
-`typeclasses.objects.Object`
+  `typeclasses.objects.Object`
  * Ensures proper handling of color formatting of objects when
- `Object.return_appearance()` is called.
- 
+   `Object.return_appearance()` is called.
+ * Ensures exits are ordered properly when `Object.return_appearance()` is
+   called.
