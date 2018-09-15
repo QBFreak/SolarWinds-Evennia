@@ -13,9 +13,6 @@ class TestObject(EvenniaTest):
 
     Characters, Exits and Rooms should all inherit from
     typeclasses.objects.Object
-
-    Tests the color formatting returned by Object.return_appearance() as
-    specified in detail in test_room_appearance() below
     """
 
     object_typeclass = Object
@@ -25,6 +22,58 @@ class TestObject(EvenniaTest):
 
     def setUp(self):
         super(TestObject, self).setUp()
+        self.room = create_object(Room, key="Location")
+        self.exit1 = create_object(
+            Exit,
+            key="Exit",
+            location=self.room,
+            destination=self.room
+        )
+        self.character = create_object(
+            Character,
+            key="Character",
+            location=self.room
+        )
+        self.object2 = create_object(
+            Object,
+            key="Object2",
+            location=self.room
+        )
+
+    def test_inheritance_character(self):
+        """Test the inheritance of the Character object"""
+        assert isinstance(self.character, Object)
+
+    def test_inheritance_exit(self):
+        """Test the inheritance of the Exit object"""
+        assert isinstance(self.exit, Object)
+
+    def test_inheritance_room(self):
+        """Test the inheritance of the Room object"""
+        assert isinstance(self.room, Object)
+
+
+class TestObjectAppearance(EvenniaTest):
+    """
+    Unittest for default object appearance
+
+    Tests the color formatting returned by Object.return_appearance()
+
+     * The room is `r`
+     * Exit 1 is the same color as the room
+     * Exit 2 is `g`
+     * Object is `c`
+     * Commas between exits, objects should be `n`
+     * We should end with `n` to be polite to whomever comes next
+    """
+
+    object_typeclass = Object
+    character_typeclass = Character
+    exit_typeclass = Exit
+    room_typeclass = Room
+
+    def setUp(self):
+        super(TestObjectAppearance, self).setUp()
         self.room = create_object(Room, key="Location")
         self.room.db.color = 'r'
         self.exit1 = create_object(
@@ -58,30 +107,12 @@ class TestObject(EvenniaTest):
         )
         self.object2.db.color = 'y'
 
-    def test_inheritance_character(self):
-        """Test the inheritance of the Character object"""
-        assert isinstance(self.character, Object)
-
-    def test_inheritance_exit(self):
-        """Test the inheritance of the Exit object"""
-        assert isinstance(self.exit1, Object)
-
-    def test_inheritance_room(self):
-        """Test the inheritance of the Room object"""
-        assert isinstance(self.room, Object)
-
     def test_room_appearance(self):
-        """
-        Test the appearance of a room
-
-        As set above in setUp:
-         * The room name is `r`
-         * Exit 1 is the same color as the room
-         * Exit 2 is `g`
-         * Object is `c`
-         * Commas between exits, objects should be `n`
-         * We should end with `n` to be polite to whomever comes next
-        """
+        """Test the appearance of a room"""
         # print(self.room.return_appearance(self.character))
-        assert self.room.return_appearance(self.character) == \
-            "|rLocation|n\n\n|wExits:|n |rExit1|n, |gExit2|n\n|wYou see:|n |cObject1|n, |yObject2|n"
+        assert self.room.return_appearance(self.character) == (
+            "|rLocation|n\n"
+            "\n"
+            "|wExits:|n |rExit1|n, |gExit2|n\n"
+            "|wYou see:|n |cObject1|n, |yObject2|n"
+        )
