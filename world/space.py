@@ -727,6 +727,37 @@ class SpaceExit(DefaultExit):
         return True
 
 
+class SpaceEntrance(DefaultExit):
+    """
+    This is an Exit object used to enter a SpaceRoom from outside of Space.
+    """
+    def at_object_creation(self):
+        # Destination coordinates default to (0, 0, 0)
+        self.db.x = 0
+        self.db.y = 0
+        self.db.z = 0
+
+    def at_traverse(self, traversing_object, target_location):
+        """
+        This implements the actual traversal. The traverse lock has
+        already been checked (in the Exit command) at this point.
+
+        Args:
+            traversing_object (Object): Object traversing us.
+            target_location (Object): Where target is going.
+
+        Returns:
+            bool: True if the traverse is allowed to happen
+
+        """
+        enter_space(
+            traversing_object, (self.db.x, self.db.y, self.db.z)
+        )
+
+        traversing_object.at_after_move(None)
+        return True
+
+
 class SpaceMapProvider(object):
     """
     Default Space Map provider.
