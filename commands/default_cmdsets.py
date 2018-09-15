@@ -90,4 +90,3 @@ class SessionCmdSet(default_cmds.SessionCmdSet):
         #
         # any commands you add below will overload the default ones.
         #
-        self.add(CmdTestCmd())
