@@ -43,6 +43,6 @@ I've made are listed below:
 
 
 | Directory | Contains |
-------------------------
+|---|---|
 | [typeclasses](typeclasses) | Changes to how Evennia works |
 | [world](world) | Features I've added myself |
