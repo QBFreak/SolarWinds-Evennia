@@ -206,7 +206,7 @@ class Object(DefaultObject):
                 thing_color = 'n'
                 if con.db.color is not None and con.db.color != "":
                     thing_color = con.db.color
-                things.append("|{1}{0}".format(key, thing_color))
+                things.append("|{1}{0}|n".format(key, thing_color))
         # get description, build string
         room_color = 'n'
         if self.db.color is not None and self.db.color != "":
@@ -236,7 +236,7 @@ class Object(DefaultObject):
                         exits.insert(0, exit)
             string += "\n|wExits:|n"
             for i in range(len(exits)):
-                string += " |{1}{0},".format(exits[i][0], exits[i][1])
+                string += " |{1}{0}|n,".format(exits[i][0], exits[i][1])
             string = string.rstrip(",")
         if users or things:
             string += "\n|wYou see:|n " + ", ".join(users + things)

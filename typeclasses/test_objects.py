@@ -1,6 +1,5 @@
 from evennia import create_object
 from evennia.commands.default.tests import CommandTest
-from evennia.utils import logger
 from evennia.utils.test_resources import EvenniaTest
 from typeclasses.characters import Character
 from typeclasses.exits import Exit
@@ -80,6 +79,8 @@ class TestObject(EvenniaTest):
          * Exit 2 is `g`
          * Object is `c`
          * Commas between exits, objects should be `n`
+         * We should end with `n` to be polite to whomever comes next
         """
+        # print(self.room.return_appearance(self.character))
         assert self.room.return_appearance(self.character) == \
-            "|rLocation|n\n\n|wExits:|n |rExit1|n, |gExit2\n|wYou see:|n |cObject1|n, |yObject2"
+            "|rLocation|n\n\n|wExits:|n |rExit1|n, |gExit2|n\n|wYou see:|n |cObject1|n, |yObject2|n"
