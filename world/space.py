@@ -123,7 +123,9 @@ Implementation details:
 from evennia import DefaultRoom, DefaultExit, DefaultScript
 from evennia import create_object, create_script
 from evennia.utils import inherits_from
+from evennia.utils import logger
 from typeclasses.objects import Object
+from typeclasses.exits import Exit
 
 
 def create_space(name="space", mapprovider=None):
@@ -442,10 +444,12 @@ class SpaceScript(DefaultScript):
         # TODO: Don't put the room away if it contains objects
         for item in room.contents:
             if item.has_account:
-                # There is still a character in that room. We can't get rid of
-                # it just yet
+                # or not isinstance(item, SpaceExit):
+                # There is still a character or object in that room.
+                # We can't get rid of it just yet
                 break
         else:
+            logger.log_msg("No characters left in the room")
             # No characters left in the room.
 
             # Clear the location of every obj in that room first
