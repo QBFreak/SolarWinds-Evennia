@@ -362,7 +362,7 @@ class SpaceScript(DefaultScript):
                     old_room.space.at_after_object_leave(obj)
                 else:
                     for item in old_room.contents:
-                        if item.has_account:
+                        if item.has_account or not isinstance(item, SpaceExit):
                             # There is still a player in the old room.
                             # Let's create a new room and not touch that old
                             # room.
@@ -433,7 +433,7 @@ class SpaceScript(DefaultScript):
     def _destroy_room(self, room):
         """
         Moves a room back to storage. If room is not a SpaceRoom or there
-        is a player inside the room, then this does nothing.
+        is an object or player inside the room, then this does nothing.
 
         Args:
             room (SpaceRoom): the room to put in storage
@@ -441,15 +441,16 @@ class SpaceScript(DefaultScript):
         if not room or not inherits_from(room, SpaceRoom):
             return
 
-        # TODO: Don't put the room away if it contains objects
         for item in room.contents:
-            if item.has_account:
-                # or not isinstance(item, SpaceExit):
+            if item.has_account or not isinstance(item, SpaceExit):
+                logger.log_msg("{0} prevented us from putting the room away".format(
+                    item
+                ))
                 # There is still a character or object in that room.
                 # We can't get rid of it just yet
                 break
         else:
-            logger.log_msg("No characters left in the room")
+            logger.log_msg("No objects left in the room")
             # No characters left in the room.
 
             # Clear the location of every obj in that room first
@@ -457,6 +458,7 @@ class SpaceScript(DefaultScript):
                 if item.destination and item.destination == room:
                     # Ignore the exits, they stay in the room
                     continue
+                logger.log_message("Cleared location of item {0}".format(item))
                 item.location = None
 
             # Then delete its reference
@@ -585,7 +587,6 @@ class SpaceRoom(DefaultRoom, Object):
         rooms[self.coordinates] = self
 
         # Every obj inside this room will get its location set to None
-        # TODO: Objects should remain at specific coordinates
         for item in self.contents:
             if not item.destination or item.destination != item.location:
                 item.location = None
