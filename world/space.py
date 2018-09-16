@@ -109,21 +109,33 @@ Customisation example:
     ```
 Implementation details:
 
-    When a character moves into space, they get their own room. If
-    they move, instead of moving the character, the room changes to match the
+    When a character or object moves into space, they get their own room. If
+    they move, instead of moving the object, the room changes to match the
     new coordinates.
-    If a character meets another character in space, then their room
-    merges. When one of the character leaves again, they each get their own
+    If an object meets another object in space, then their room
+    merges. When one of the objects leaves again, they each get their own
     separate rooms.
     Rooms are created as needed. Unneeded rooms are stored away to avoid the
     overhead cost of creating new rooms again in the future.
+
+Modifications by QBFreak
+
+    Modifications from the original Wilderness contrib include:
+     * Changing all references from wilderness to space
+     * Updating coordinates to include a third dimension (`z`)
+     * Removing the limitation that all coordinates must be positive values,
+       this in effect makes `(0, 0, 0)` the center of the map (if you desire)
+     * Changed the default map name to avoid conflicts with continued use of
+       Wilderness contrib
+     * Changed to respect all objects instead of just players when maintaining
+       rooms for specific coordinates. This allows for vehicles such as ships,
+       as well as other items at fixed locations to interact with
 
 """
 
 from evennia import DefaultRoom, DefaultExit, DefaultScript
 from evennia import create_object, create_script
 from evennia.utils import inherits_from
-from evennia.utils import logger
 from typeclasses.objects import Object
 from typeclasses.exits import Exit
 
@@ -362,8 +374,8 @@ class SpaceScript(DefaultScript):
                     old_room.space.at_after_object_leave(obj)
                 else:
                     for item in old_room.contents:
-                        if item.has_account or not isinstance(item, SpaceExit):
-                            # There is still a player in the old room.
+                        if not isinstance(item, SpaceExit):
+                            # There is still an object in the old room.
                             # Let's create a new room and not touch that old
                             # room.
                             create_new_room = True
@@ -433,7 +445,7 @@ class SpaceScript(DefaultScript):
     def _destroy_room(self, room):
         """
         Moves a room back to storage. If room is not a SpaceRoom or there
-        is an object or player inside the room, then this does nothing.
+        is an object (or player) inside the room, then this does nothing.
 
         Args:
             room (SpaceRoom): the room to put in storage
@@ -442,15 +454,11 @@ class SpaceScript(DefaultScript):
             return
 
         for item in room.contents:
-            if item.has_account or not isinstance(item, SpaceExit):
-                logger.log_msg("{0} prevented us from putting the room away".format(
-                    item
-                ))
-                # There is still a character or object in that room.
+            if not isinstance(item, SpaceExit):
+                # There is still an object in that room.
                 # We can't get rid of it just yet
                 break
         else:
-            logger.log_msg("No objects left in the room")
             # No characters left in the room.
 
             # Clear the location of every obj in that room first
@@ -458,7 +466,6 @@ class SpaceScript(DefaultScript):
                 if item.destination and item.destination == room:
                     # Ignore the exits, they stay in the room
                     continue
-                logger.log_message("Cleared location of item {0}".format(item))
                 item.location = None
 
             # Then delete its reference
