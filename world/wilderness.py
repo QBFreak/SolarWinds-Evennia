@@ -3,6 +3,8 @@ Wilderness system
 
 Evennia contrib - titeuf87 2017
 
+Modified by QBFreak 2018
+
 This contrib provides a wilderness map. This is an area that can be huge where
 the rooms are mostly similar, except for some small cosmetic changes like the
 room name.
@@ -113,6 +115,15 @@ Implementation details:
     separate rooms.
     Rooms are created as needed. Unneeded rooms are stored away to avoid the
     overhead cost of creating new rooms again in the future.
+
+Modifications by QBFreak
+
+    Modifications from the original Wilderness contrib include:
+     * Removing the limitation that all coordinates must be positive values,
+       this in effect makes `(0, 0)` the center of the map (if you desire)
+     * Changed to respect all objects instead of just players when maintaining
+       rooms for specific coordinates. This allows for vehicles,
+       as well as other items at fixed locations to interact with
 
 """
 
@@ -352,7 +363,7 @@ class WildernessScript(DefaultScript):
                     old_room.wilderness.at_after_object_leave(obj)
                 else:
                     for item in old_room.contents:
-                        if item.has_account:
+                        if not isinstance(item, SpaceExit):
                             # There is still a player in the old room.
                             # Let's create a new room and not touch that old
                             # room.
@@ -430,7 +441,7 @@ class WildernessScript(DefaultScript):
             return
 
         for item in room.contents:
-            if item.has_account:
+            if not isinstance(item, SpaceExit):
                 # There is still a character in that room. We can't get rid of
                 # it just yet
                 break
