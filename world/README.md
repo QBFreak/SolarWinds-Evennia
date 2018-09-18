@@ -17,6 +17,9 @@ them for Python to be able to find the modules within.
  * Rooms now inherit from [typeclasses.object.Object](/typeclasses/objects.py)
    to provide exit sorting
 
+[spaceobject.py](spaceobject.py) - Objects that can be found scattered
+throughout space
+
 [wilderness.py](wilderness.py) - Minor modification to the stock wilderness
 contrib
  * Removed the limitation of coordinates to positive numbers
