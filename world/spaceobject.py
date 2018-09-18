@@ -68,9 +68,9 @@ class Planet(Star):
     """
     The planet exists only where there are stars, but not in every location
     """
-    def __init__(self, seed=39, occurs=75):
-        super(Planet, self).__init__(seed=seed, occurs=occurs)
-        self.occurs = 75
+    def __init__(self, seed=39, star_occurs=75, occurs=75):
+        super(Planet, self).__init__(seed=seed, occurs=star_occurs)
+        self.occurs = occurs
 
     def object_at_coordinates(self, coordinates):
         if super(Planet, self).object_at_coordinates(coordinates):
@@ -85,10 +85,10 @@ class Moon(Planet):
     """
     The moon exists only where there is a planet, but not in every location
     """
-    def __init__(self, seed=39, occurs=75):
-        super(Moon, self).__init__(seed=seed, occurs=occurs)
-        self.planet_occurs = 75
-        self.moon_occurs = 30
+    def __init__(self, seed=39, star_occurs=75, planet_occurs=75, occurs=30):
+        super(Moon, self).__init__(seed=seed, occurs=planet_occurs)
+        self.planet_occurs = planet_occurs
+        self.moon_occurs = occurs
 
     def object_at_coordinates(self, coordinates):
         if super(Moon, self).object_at_coordinates(coordinates):
