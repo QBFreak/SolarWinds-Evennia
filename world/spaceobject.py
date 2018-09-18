@@ -19,16 +19,18 @@ from noise import snoise3
 import random
 
 
-class SpaceObject(object):
-    # TODO: This should inherit from Object before we start using it with Evennia
+class SpaceObject(Object):
+    # TODO: This should inherit from `Object` before we start using it with Evennia
+    # In order to run spaceobj-test.py, change it to `object`
     """
     The SpaceObject class is the parent class for the individual classes for the
     various types of objects you might find in space. It has all of the generic
     functions necessary for an object that appears scattered through space.
     """
-    def __init__(self, seed, scale=100):
+    def __init__(self, seed, scale=2, selection=1):
         self.seed = seed
         self.scale = scale
+        self.selection = selection
         random.seed(self.seed)
         self.xoffset = random.random()
         self.yoffset = random.random()
@@ -48,23 +50,23 @@ class SpaceObject(object):
         x, y, z = coordinates
         n = snoise3(x + self.xoffset, y + self.yoffset, z + self.zoffset)
         o = int(n * self.scale)
-        return o == self.seed
+        return o == self.selection
 
 
 class Star(SpaceObject):
     """
     One of the most basic space objects, the star simply exists
     """
-    def __init__(self, seed=38, scale=100):
-        super(Star, self).__init__(seed, scale)
+    def __init__(self, seed=39, scale=2, selection=1):
+        super(Star, self).__init__(seed, scale, selection)
 
 
 class Planet(Star):
     """
     The planet exists only where there are stars, but not in every location
     """
-    def __init__(self, seed=38, scale=100):
-        super(Planet, self).__init__(seed, scale)
+    def __init__(self, seed=39, scale=2, selection=1):
+        super(Planet, self).__init__(seed, scale, selection)
         self.range = 5
         self.occurs = 4
 
@@ -81,8 +83,8 @@ class Moon(Planet):
     """
     The moon exists only where there is a planet, but not in every location
     """
-    def __init__(self, seed=38, scale=100):
-        super(Moon, self).__init__(seed, scale)
+    def __init__(self, seed=39, scale=2, selection=1):
+        super(Moon, self).__init__(seed, scale, selection)
         self.range = 5
         self.occurs = 3
 
