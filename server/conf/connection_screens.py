@@ -33,7 +33,7 @@ CONNECTION_SCREEN = """
 |C                 \//  /\\\'    | |.  | |.  \    \. |(| (___\ ||||  __/  \\\\
         .        /   /  \\\\   | /\  |\|    \    \ ||||:       :) /" \   :)
   o             ||___/    \___|(__\_||_)\___|\____\)(________/ (_______/
-     |b==============================================================|n
+     |b================== Apple Pie, from scratch! ==================|n
       If you have an existing account, connect to it by typing:
             |wconnect <username> <password>|n
        If you need to create an account, type (without the <>'s):
