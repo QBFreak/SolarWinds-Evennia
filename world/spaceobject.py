@@ -12,6 +12,8 @@ Usage:
 Implementation:
 
     Once the implementation details are worked out, they will be noted here.
+
+# TODO: Update this doc
 """
 
 # from typeclasses.objects import Object
@@ -19,8 +21,8 @@ from noise import snoise3
 import random
 
 
-class SpaceObject(Object):
-    # TODO: This should inherit from `Object` before we start using it with Evennia
+class SpaceObject(object):
+    # This should inherit from `Object` before we start using it with Evennia
     # In order to run spaceobj-test.py, change it to `object`
     """
     The SpaceObject class is the parent class for the individual classes for the
@@ -31,6 +33,8 @@ class SpaceObject(Object):
         self.seed = seed
         self.scale = scale
         self.selection = selection
+        # Simplex Noise doesn't work on integers, so lets get some seeded
+        # random offsets (non-integer) for x, y, and z to overcome this limitation.
         random.seed(self.seed)
         self.xoffset = random.random()
         self.yoffset = random.random()
@@ -67,14 +71,13 @@ class Planet(Star):
     """
     def __init__(self, seed=39, scale=2, selection=1):
         super(Planet, self).__init__(seed, scale, selection)
-        self.range = 5
-        self.occurs = 4
+        self.occurs = 75
 
     def object_at_coordinates(self, coordinates):
         if super(Planet, self).object_at_coordinates(coordinates):
             # Because random was seeded in SpaceObject.__init__(), it's ready
             # to produce consistent results for us.
-            return random.randint(0, self.range) == self.occurs
+            return random.randint(0, 100) <= self.occurs
         else:
             return False
 
@@ -85,13 +88,14 @@ class Moon(Planet):
     """
     def __init__(self, seed=39, scale=2, selection=1):
         super(Moon, self).__init__(seed, scale, selection)
-        self.range = 5
-        self.occurs = 3
+        self.planet_occurs = 75
+        self.moon_occurs = 30
 
     def object_at_coordinates(self, coordinates):
         if super(Moon, self).object_at_coordinates(coordinates):
             # Because random was seeded in SpaceObject.__init__(), it's ready
             # to produce consistent results for us.
-            return random.randint(0, self.range) == self.occurs
+            return random.randint(0, 100) <= self.planet_occurs \
+                and random.randint(0, 100) <= self.moon_occurs
         else:
             return False
