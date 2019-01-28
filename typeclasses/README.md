@@ -37,11 +37,11 @@ user's `@color` and `@ctext` attributes. Ripped off straight from TinyMARE :)
 to format object names with colors based on `@color` attribute when a player
 `look`s
 
-[test_characters.py](test_characters.py) - Unittests for
+[test_characters.py](test_characters.py) - Unit tests for
 [characters.py](characters.py). Ensures default values for new characters are
 set properly.
 
-[test_objects.py](test_objects.py) - Unittests for [objects.py](objects.py).
+[test_objects.py](test_objects.py) - Unit tests for [objects.py](objects.py).
  * Ensures that `Characters`, `Exits` and `Rooms` all inherit from
   `typeclasses.objects.Object`
  * Ensures proper handling of color formatting of objects when

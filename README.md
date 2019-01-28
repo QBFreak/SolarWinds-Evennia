@@ -29,7 +29,7 @@ A Big Deal. Evennia on the other hand requires all coding activities take place
 offline, and then the engine is simply restarted to apply the changes. It even
 maintains player connections while this takes place. What I like the most about
 it is the fact that it will work with large databases. I can configure it for
-a MySQL backend and then create a truly massive world that encompasses many
+a MySQL back end and then create a truly massive world that encompasses many
 solar systems with no problems. As a bonus, all the coding is done in Python,
 something I'm fairly familiar with, and far less finicky than the TinyMARE
 softcode parser. I have high hopes for this incarnation of SolarWinds.
