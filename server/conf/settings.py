@@ -4,7 +4,7 @@ Evennia settings file.
 The available options are found in the default settings file found
 here:
 
-/home/jason/Projects/SolarWinds/evennia/evennia/settings_default.py
+/data/chiana/Projects/evennia/evennia/settings_default.py
 
 Remember:
 
@@ -32,29 +32,10 @@ from evennia.settings_default import *
 ######################################################################
 
 # This is the name of your game. Make it catchy!
-SERVERNAME = "Solar Winds"
+SERVERNAME = "solarwinds"
 
-# Server ports. If enabled and marked as "visible", the port
-# should be visible to the outside world on a production server.
-# Note that there are many more options available beyond these.
-
-# Telnet ports. Visible.
-TELNET_ENABLED = True
-TELNET_PORTS = [4000]
-# (proxy, internal). Only proxy should be visible.
-WEBSERVER_ENABLED = True
-WEBSERVER_PORTS = [(4001, 4002)]
-# Telnet+SSL ports, for supporting clients. Visible.
-SSL_ENABLED = False
-SSL_PORTS = [4003]
-# SSH client ports. Requires crypto lib. Visible.
-SSH_ENABLED = False
-SSH_PORTS = [4004]
-# Websocket-client port. Visible.
-WEBSOCKET_CLIENT_ENABLED = True
-WEBSOCKET_CLIENT_PORT = 4005
-# Internal Server-Portal port. Not visible.
-AMP_PORT = 4006
+# A list of ports the Evennia telnet server listens on Can be one or many.
+TELNET_PORTS = [4400]
 
 ######################################################################
 # Settings given in secret_settings.py override those in this file.
@@ -62,4 +43,4 @@ AMP_PORT = 4006
 try:
     from server.conf.secret_settings import *
 except ImportError:
-    print "secret_settings.py file not found or failed to import."
+    print("secret_settings.py file not found or failed to import.")
