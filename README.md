@@ -46,3 +46,13 @@ I've made are listed below:
 |---|---|
 | [typeclasses](typeclasses) | Changes to how Evennia works |
 | [world](world) | Features I've added myself |
+
+## Prerequisites
+
+In addition to everything Evennia needs to run, you will also need to install
+the `noise` package from Pypi into the Virtual Environment you're using for
+Evennia:
+
+```
+(venv) $ pip install noise
+```
