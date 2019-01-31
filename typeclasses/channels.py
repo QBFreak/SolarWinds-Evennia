@@ -12,7 +12,6 @@ to be modified.
 
 """
 
-import numpy
 import random
 from evennia import DefaultChannel
 
@@ -199,7 +198,7 @@ class Channel(DefaultChannel):
                 formatted_text = formatted_text + "|{0}".format(color)
                 for i in range(
                             text_ptr,
-                            numpy.clip(text_ptr + skip, text_ptr, len(text))
+                            self.clip(text_ptr + skip, text_ptr, len(text))
                         ):
                     formatted_text = formatted_text + text[i]
                 text_ptr += skip
@@ -207,3 +206,35 @@ class Channel(DefaultChannel):
             if color_ptr >= len(colors):
                 color_ptr = 0
         return formatted_text
+
+    def clip(self, a, a_min, a_max):
+        """
+        Limit a value or list to a specific set of bounds
+
+        Args:
+            a (list): The list of values to limit
+            a_min (int): The minimum value that may be present in the list
+            a_max (int): The maximum value that may be present in the list
+
+        Returns:
+            a (array): The array of values, none lesser than a_min and none
+                greater than a_max
+
+        Example:
+            clip(value, 0, 10)
+            clip(values, 0, 10)
+        """
+        if a_min >= a_max:
+            raise ValueError("clip: a_min must be less than a_max.")
+        if isinstance(a, list):
+            for i in range(len(a)):
+                if a[i] < a_min:
+                    a[i] = a_min
+                if a[i] > a_max:
+                    a[i] = a_max
+        else:
+            if a < a_min:
+                a = a_min
+            if a > a_max:
+                a = a_max
+        return a
