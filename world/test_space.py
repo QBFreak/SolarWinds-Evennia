@@ -6,7 +6,7 @@ from world import space
 
 class TestSpace(EvenniaTest):
     """
-    Unit tests for Space, modification of unit tests for Wilderness Contrib
+    Unit tests for Space. A modification of unit tests for Wilderness Contrib
         Only minor changes were required to make this work for Space, mostly
         new names and additional exits.
 
