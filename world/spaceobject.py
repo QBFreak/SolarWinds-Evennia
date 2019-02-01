@@ -74,9 +74,10 @@ class Planet(Star):
 
     def object_at_coordinates(self, coordinates):
         if super(Planet, self).object_at_coordinates(coordinates):
-            # Because random was seeded in SpaceObject.__init__(), it's ready
-            # to produce consistent results for us.
-            return random.randint(0, 100) <= self.occurs
+            x, y, z = coordinates
+            n = snoise3(x + self.xoffset, y + self.yoffset, z + self.zoffset)
+            o = int(n * 100)
+            return o <= self.occurs
         else:
             return False
 
@@ -92,15 +93,9 @@ class Moon(Planet):
 
     def object_at_coordinates(self, coordinates):
         if super(Moon, self).object_at_coordinates(coordinates):
-            # Because random was seeded in SpaceObject.__init__(), it's ready
-            # to produce consistent results for us.
-            # Well. Almost. We call it twice here, so that kinda makes a mess
-            # of our consistancy in regards to Planets, where we only call it once
-            # However, since we're using the `<= occurs` method, the results
-            # aren't too bad. It masks the worst of it. The side benefit is
-            # that we end up with < 10 rouge moons in 1000 systems
-            # We can call that a feature :)
-            return random.randint(0, 100) <= self.planet_occurs \
-                and random.randint(0, 100) <= self.moon_occurs
+            x, y, z = coordinates
+            n = snoise3(x + self.xoffset, y + self.yoffset, z + self.zoffset)
+            o = int(n * 100)
+            return o <= self.occurs
         else:
             return False
