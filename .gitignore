@@ -1,3 +1,8 @@
+## Custom
+# settings.py symlink in root dir for Evennia unit tests
+/settings.py
+
+## Evennia defaults
 *.py[cod]
 
 # C extensions
