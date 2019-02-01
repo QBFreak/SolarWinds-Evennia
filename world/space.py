@@ -588,7 +588,9 @@ class SpaceRoom(DefaultRoom, Object):
         """
         # Remove the reference for the old coordinates...
         rooms = self.space.db.rooms
-        del rooms[self.coordinates]
+        # If the room was never used before, it wont have any coordinates
+        if self.coordinates in rooms:
+            del rooms[self.coordinates]
         # ...and add it for the new coordinates.
         self.ndb.active_coordinates = new_coordinates
         rooms[self.coordinates] = self
