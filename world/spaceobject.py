@@ -16,12 +16,12 @@ Implementation:
 # TODO: Update this doc
 """
 
-# from typeclasses.objects import Object
+from typeclasses.objects import Object
 from noise import snoise3
 import random
 
 
-class SpaceObject(object):
+class SpaceObject(Object):
     # This should inherit from `Object` before we start using it with Evennia
     # In order to run spaceobj-test.py, change it to `object`
     """
