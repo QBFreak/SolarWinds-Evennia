@@ -363,7 +363,7 @@ class WildernessScript(DefaultScript):
                     old_room.wilderness.at_after_object_leave(obj)
                 else:
                     for item in old_room.contents:
-                        if not isinstance(item, SpaceExit):
+                        if not isinstance(item, WildernessExit):
                             # There is still a player in the old room.
                             # Let's create a new room and not touch that old
                             # room.
@@ -441,7 +441,7 @@ class WildernessScript(DefaultScript):
             return
 
         for item in room.contents:
-            if not isinstance(item, SpaceExit):
+            if not isinstance(item, WildernessExit):
                 # There is still a character in that room. We can't get rid of
                 # it just yet
                 break
