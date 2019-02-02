@@ -38,6 +38,33 @@ SERVERNAME = "solarwinds"
 TELNET_PORTS = [4400]
 
 ######################################################################
+# In-game Channels created from server start
+######################################################################
+
+# This is a list of global channels created by the
+# initialization script the first time Evennia starts.
+# The superuser (user #1) will be automatically subscribed
+# to all channels in this list. Each channel is described by
+# a dictionary keyed with the same keys valid as arguments
+# to the evennia.create.create_channel() function.
+# Note: Evennia will treat the first channel in this list as
+# the general "public" channel and the second as the
+# general "mud info" channel. Other channels beyond that
+# are up to the admin to design and call appropriately.
+DEFAULT_CHANNELS = [
+    # public channel
+    {"key": "Public",
+     "aliases": ('ooc', 'pub', '='),
+     "desc": "Public discussion",
+     "locks": "control:perm(Admin);listen:all();send:all()"},
+    # connection/mud info
+    {"key": "MudInfo",
+     "aliases": "",
+     "desc": "Connection log",
+     "locks": "control:perm(Developer);listen:perm(Admin);send:false()"}
+]
+
+######################################################################
 # Settings given in secret_settings.py override those in this file.
 ######################################################################
 try:
