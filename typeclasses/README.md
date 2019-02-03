@@ -17,6 +17,17 @@ directories you create.
 
 ## Customizations
 
+[channelcommands.py](channelcommands.py) - Allow channel commands and aliases
+to work without any whitespace between them and the message to the channel.
+For instance:
+
+```
+=This is my message
+[Public] root: This is my message
+```
+
+Where the default behavior required the command to be `= This is my message.`
+
 [channels.py](channels.py) - Color formatting for channel text based on a
 user's `@color` and `@ctext` attributes. Ripped off straight from TinyMARE :)
 
