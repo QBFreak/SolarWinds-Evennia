@@ -37,6 +37,21 @@ SERVERNAME = "solarwinds"
 # A list of ports the Evennia telnet server listens on Can be one or many.
 TELNET_PORTS = [4400]
 
+
+######################################################################
+# Default command sets
+######################################################################
+# Note that with the exception of the unloggedin set (which is not
+# stored anywhere in the database), changing these paths will only affect
+# NEW created characters/objects, not those already in play. So if you plan to
+# change this, it's recommended you do it before having created a lot of objects
+# (or simply reset the database after the change for simplicity).
+
+# Except apparently changing this one takes effect right away. -QBFreak
+
+CHANNEL_COMMAND_CLASS = "typeclasses.channelcommand.ChannelCommand"
+
+
 ######################################################################
 # In-game Channels created from server start
 ######################################################################
@@ -51,6 +66,13 @@ TELNET_PORTS = [4400]
 # the general "public" channel and the second as the
 # general "mud info" channel. Other channels beyond that
 # are up to the admin to design and call appropriately.
+
+# Note from QBFreak: These channels are created the first time the server is run
+#   any changes made to settings.py after the fact will require a database reset
+#   You'll probably just want to hack them in with something like this:
+# @py from evennia import ChannelDB;self.msg(ChannelDB.objects.all())
+# @py from evennia import ChannelDB;ChannelDB.objects.all()[0].aliases.add("=")
+
 DEFAULT_CHANNELS = [
     # public channel
     {"key": "Public",
