@@ -25,3 +25,16 @@ contrib
  * Removed the limitation of coordinates to positive numbers
  * Rooms now inherit from [typeclasses.object.Object](/typeclasses/objects.py)
    to provide exit sorting
+
+## Unit tests
+
+[test_space.py](test_space.py) - Tests Space
+ * Modification of default Wilderness Contrib unit tests
+ * See code for documentation on specific tests
+
+[test_spaceobject.py](test_spaceobject.py) - Tests SpaceObject
+ * See code for documentation on specific tests
+
+[test_wilderness.py](test_wilderness.py) - Tests Wilderness
+ * Modification of default Wilderness Contrib unit tests
+ * See code for documentation on specific tests
