@@ -48,6 +48,8 @@ user's `@color` and `@ctext` attributes. Ripped off straight from TinyMARE :)
 to format object names with colors based on `@color` attribute when a player
 `look`s
 
+[spaceship.py](spaceship.py) - Typeclasses for ships that travel through Space.
+
 [test_characters.py](test_characters.py) - Unit tests for
 [characters.py](characters.py). Ensures default values for new characters are
 set properly.
