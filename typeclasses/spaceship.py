@@ -17,6 +17,7 @@ It is possible for a ship to have more than one Console, however it may never
 
 from evennia import DefaultRoom
 from typeclasses.objects import Object
+from world.space import SpaceRoom
 
 
 class SpaceShipBridge(DefaultRoom, Object):
@@ -34,7 +35,61 @@ class SpaceShipConsole(Object):
     The Console is the means to control the ship. There is at least one Console
     on every ship.
     """
-    pass
+    def return_appearance(self, looker):
+        """
+        Called by the look command.
+        """
+        # Default appearance
+        string = super(SpaceShipConsole, self).return_appearance(looker)
+
+        # Error messages
+        errors = False
+        if not self.db.hull:
+            string += "\n|rERROR:|n Console does not have a Hull specified."
+            errors = True
+        elif not isinstance(self.db.hull, SpaceShipHull):
+            string += "\n|rERROR:|n Console has an invalid Hull specified."
+            errors = True
+        else:
+            # No Hull errors, check Console re: Hull
+            if not self.db.hull.db.console:
+                string += "\n|rERROR:|n Hull does not have a Console specified."
+                errors = True
+            elif not isinstance(self.db.hull.db.console, SpaceShipConsole):
+                string += "\n|rERROR:|n Hull has an invalid Console specified."
+                errors = True
+            elif self.db.hull.db.Console.db.hull != self.db.hull:
+                string += "\n|rERROR:|n Hull's Console specifies a different Hull!'"
+                errors = True
+
+        if not self.db.bridge:
+            string += "\n|rERROR:|n Console does not have a Bridge specified."
+            errors = True
+        elif not isinstance(self.db.bridge, SpaceShipBridge):
+            string += "\n|rERROR:|n Console has an invalid Bridge specified."
+            errors = True
+        else:
+            # No Bridge errors, check Console re: Bridge
+            if not self.db.bridge.db.console:
+                string += "\n|rERROR:|n Bridge does not have a Console specified."
+                errors = True
+            elif not isinstance(self.db.bridge.db.console, SpaceShipConsole):
+                string += "\n|rERROR:|n Bridge has an invalid Console specified."
+                errors = True
+            elif self.db.bridge.db.Console.db.bridge != self.db.bridge:
+                string += "\n|rERROR:|n Bridge's Console specifies a different Bridge!'"
+                errors = True
+
+        # If we had any errors, then exit here
+        if errors:
+            return string
+
+        if isinstance(self.db.hull.location, SpaceRoom):
+            string += "\nCoordinates: {}".format(self.db.hull.location.coordinates)
+        else:
+            string += "\nCoordinates: Unknown"
+        # Done
+        return string
 
 
 class SpaceShipHull(Object):
