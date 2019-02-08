@@ -35,6 +35,12 @@ class SpaceShipConsole(Object):
     The Console is the means to control the ship. There is at least one Console
     on every ship.
     """
+    def at_object_creation(self):
+        """
+        Called when the object is first created
+        """
+        self.cmdset.add("spaceshipconsole.SSCCmdSet")
+
     def return_appearance(self, looker):
         """
         Called by the look command.
