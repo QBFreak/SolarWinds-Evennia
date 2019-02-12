@@ -39,6 +39,8 @@ class SpaceShipConsole(Object):
         """
         Called when the object is first created
         """
+
+        # Add the Command Set for the Console
         self.cmdset.add("spaceshipconsole.SSCCmdSet")
 
     def return_appearance(self, looker):
