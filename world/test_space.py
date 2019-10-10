@@ -45,14 +45,14 @@ class TestSpace(EvenniaTest):
         space.enter_space(self.char1)
         self.assertIsInstance(self.char1.location, space.SpaceRoom)
         s = self.get_space_script()
-        self.assertEquals(s.db.itemcoordinates[self.char1], (0, 0, 0))
+        self.assertEqual(s.db.itemcoordinates[self.char1], (0, 0, 0))
 
     def test_enter_space_custom_coordinates(self):
         space.create_space()
         space.enter_space(self.char1, coordinates=(1, 2, 3))
         self.assertIsInstance(self.char1.location, space.SpaceRoom)
         s = self.get_space_script()
-        self.assertEquals(s.db.itemcoordinates[self.char1], (1, 2, 3))
+        self.assertEqual(s.db.itemcoordinates[self.char1], (1, 2, 3))
 
     def test_enter_space_custom_name(self):
         name = "customnname"
@@ -72,7 +72,7 @@ class TestSpace(EvenniaTest):
                  if i.destination and (
                      i.access(self.char1, "view") or
                      i.access(self.char1, "traverse"))]
-        self.assertEquals(len(exits), 10)
+        self.assertEqual(len(exits), 10)
         exitsok = ["north", "northeast", "east", "southeast", "south",
                    "southwest", "west", "northwest", "up", "down"]
         for each_exit in exitsok:
@@ -89,25 +89,25 @@ class TestSpace(EvenniaTest):
         s = self.get_space_script()
 
         # We should have no unused room after moving the first account in.
-        self.assertEquals(len(s.db.unused_rooms), 0)
+        self.assertEqual(len(s.db.unused_rooms), 0)
         s.move_obj(self.char1, (0, 0, 0))
-        self.assertEquals(len(s.db.unused_rooms), 0)
+        self.assertEqual(len(s.db.unused_rooms), 0)
 
         # And also no unused room after moving the second one in.
         s.move_obj(self.char2, (1, 1, 1))
-        self.assertEquals(len(s.db.unused_rooms), 0)
+        self.assertEqual(len(s.db.unused_rooms), 0)
 
         # But if char2 moves into char1's room, we should have one unused room
         # Which should be char2's old room that got created.
         s.move_obj(self.char2, (0, 0, 0))
-        self.assertEquals(len(s.db.unused_rooms), 1)
-        self.assertEquals(self.char1.location, self.char2.location)
+        self.assertEqual(len(s.db.unused_rooms), 1)
+        self.assertEqual(self.char1.location, self.char2.location)
 
         # And if char2 moves back out, that unused room should be put back to
         # use again.
         s.move_obj(self.char2, (1, 1, 1))
-        self.assertNotEquals(self.char1.location, self.char2.location)
-        self.assertEquals(len(s.db.unused_rooms), 0)
+        self.assertNotEqual(self.char1.location, self.char2.location)
+        self.assertEqual(len(s.db.unused_rooms), 0)
 
     def test_get_new_coordinates(self):
         loc = (1, 1, 1)
@@ -121,6 +121,6 @@ class TestSpace(EvenniaTest):
                       "northwest": (0, 2, 1),
                       "up": (1, 1, 2),
                       "down": (1, 1, 0)}
-        for direction, correct_loc in directions.iteritems():  # Not compatible with Python 3
+        for direction, correct_loc in directions.items():  # Not compatible with Python 3
             new_loc = space.get_new_coordinates(loc, direction)
-            self.assertEquals(new_loc, correct_loc, direction)
+            self.assertEqual(new_loc, correct_loc, direction)
